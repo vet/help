@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+## Prints help dialog for all scripts in the directory of the help file
+cd "$(dirname "$0")"
+
+printf "\033[1;34mCommands:\033[1;0m\n"
+for file in ./*; do
+    if [[ -x "$file" ]]; then
+        filename="$(basename "$file")"
+        description="$(cat $file | grep '^## ' | head -n 1 | sed 's/^## //g')"
+        printf "  \033[1;35m$filename\033[1;0m"
+        printf ' %.0s' `seq 1 $((20 - ${#filename}))`
+        printf "$description\n"
+    fi
+done
